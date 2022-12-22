@@ -1,0 +1,19 @@
+{
+  "name": "mapeo-core-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@mapeo/mapeo-core-next": "github:digidem/mapeo-core-next#coreReplicator",
+    "corestore": "^6.4.0",
+    "hyperswarm": "^4.3.5",
+    "random-access-memory": "^6.1.0"
+  }
+}
