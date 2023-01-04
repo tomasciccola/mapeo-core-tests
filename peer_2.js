@@ -1,5 +1,5 @@
-import { CoreIdExtension } from './node_modules/@mapeo/mapeo-core-next/sync/CoreIdExtension.js'
-import { CoreIdCache } from './node_modules/@mapeo/mapeo-core-next/sync/CoreIdCache.js'
+import { CoreIdExtension } from '../mapeo-core-next/sync/CoreIdExtension.js'
+import { CoreIdCache } from '../mapeo-core-next/sync/CoreIdCache.js'
 import { Sqlite } from './node_modules/@mapeo/mapeo-core-next/lib/sqlite.js'
 import Hyperswarm from 'hyperswarm'
 import Corestore from 'corestore'
@@ -19,8 +19,15 @@ const masterCore =  store.get({key:masterCoreKey})
 await masterCore.ready()
 
 // instance extension to sync auth
-const coreIdExtension = new CoreIdExtension(masterCore, store, coreIdCache)
-coreIdExtension.share('auth')
+const coreIdExtension = new CoreIdExtension(masterCore, coreIdCache)
+coreIdExtension.share('auth', (msg,peer) => {
+  msg.map(({namespace, coreIds}) => {
+    console.log(`getting ${coreIds} \nto ${namespace}`)
+    // if I try to get the core it gets on a loop  of the same extension message, for some reason
+    // const storeNamespace = store.namespace(namespace)
+    // coreIds.forEach(coreId => storeNamespace.get(coreId))
+  })
+})
 
 swarm.on('connection' ,  (conn,info) => {
   console.log('replicating data')
