@@ -23,7 +23,8 @@ const coreIdExtension = new CoreIdExtension(masterCore, coreIdCache)
 coreIdExtension.share('auth', (msg,peer) => {
   msg.map(({namespace, coreIds}) => {
     console.log(`getting ${coreIds} \nto ${namespace}`)
-    // if I try to get the core it gets on a loop  of the same extension message, for some reason
+    // if I try to get the core it gets on a loop 
+    // so this msg.map will only get the through the first element
     // const storeNamespace = store.namespace(namespace)
     // coreIds.forEach(coreId => storeNamespace.get(coreId))
   })
@@ -32,7 +33,7 @@ coreIdExtension.share('auth', (msg,peer) => {
 swarm.on('connection' ,  (conn,info) => {
   console.log('replicating data')
   store.replicate(conn)
-  console.log(`getting ${masterCoreKey.toString('hex')}`)
+  console.log(`getting masterKey => ${masterCoreKey.toString('hex')}`)
   store.get(masterCoreKey)
 })
 const discovery = swarm.join(topic)
